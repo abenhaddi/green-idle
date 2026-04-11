@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bru8scen4aaw2"]
+
+[ext_resource type="Script" uid="uid://8r7edv6ttwih" path="res://scripts/slot.gd" id="1_djgyf"]
+
+[node name="Slot" type="PanelContainer" unique_id=635103840]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_djgyf")
+
+[node name="Column" type="VBoxContainer" parent="." unique_id=307491993]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="Column" unique_id=1077117668]
+layout_mode = 2
+text = "Empty Slot"
+
+[node name="ProgressBar" type="ProgressBar" parent="Column" unique_id=1888624889]
+layout_mode = 2
+
+[node name="ActionButton" type="Button" parent="Column" unique_id=1518006572]
+layout_mode = 2
+text = "Plant"
+
+[connection signal="pressed" from="Column/ActionButton" to="." method="_on_action_button_pressed"]

@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://c0l833msbss2e"]
+
+[ext_resource type="PackedScene" uid="uid://bru8scen4aaw2" path="res://scenes/Slot.tscn" id="1_glv2v"]
+[ext_resource type="Script" uid="uid://vhkfqqx672o3" path="res://scripts/main.gd" id="1_rvslj"]
+
+[node name="Main" type="Control" unique_id=1126016262]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rvslj")
+
+[node name="RootPanel" type="PanelContainer" parent="." unique_id=119192577]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainColumn" type="VBoxContainer" parent="RootPanel" unique_id=935680224]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="RootPanel/MainColumn" unique_id=364202259]
+layout_mode = 2
+text = "Green Idle"
+
+[node name="ResourcesLabel" type="Label" parent="RootPanel/MainColumn" unique_id=200665143]
+layout_mode = 2
+text = "Resources: 0"
+
+[node name="Slot1" parent="RootPanel/MainColumn" unique_id=635103840 instance=ExtResource("1_glv2v")]
+layout_mode = 2
+
+[node name="Slot2" parent="RootPanel/MainColumn" unique_id=886385369 instance=ExtResource("1_glv2v")]
+layout_mode = 2
+
+[node name="Slot3" parent="RootPanel/MainColumn" unique_id=1290999251 instance=ExtResource("1_glv2v")]
+layout_mode = 2
