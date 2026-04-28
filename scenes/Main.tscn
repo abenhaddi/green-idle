@@ -33,9 +33,18 @@ text = "Resources: 0"
 
 [node name="Slot1" parent="RootPanel/MainColumn" unique_id=635103840 instance=ExtResource("1_glv2v")]
 layout_mode = 2
+starts_unlocked = true
+grow_time = 3.0
+upgrade_cost = 5
 
 [node name="Slot2" parent="RootPanel/MainColumn" unique_id=886385369 instance=ExtResource("1_glv2v")]
 layout_mode = 2
+unlock_cost = 3
+grow_time = 5.0
+base_reward = 2
 
 [node name="Slot3" parent="RootPanel/MainColumn" unique_id=1290999251 instance=ExtResource("1_glv2v")]
 layout_mode = 2
+unlock_cost = 6
+base_reward = 4
+upgrade_cost = 20
