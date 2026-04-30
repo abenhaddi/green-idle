@@ -1,108 +1,113 @@
 extends PanelContainer
 
-signal harvested(amount: int)
+signal empty_slot_selected(slot: PanelContainer)
 signal unlock_requested(slot: PanelContainer, cost: int)
-signal upgrade_requested(slot: PanelContainer, cost: int)
+signal harvested(amount: int)
 
 enum SlotState { LOCKED, EMPTY, GROWING, READY }
 
 @export var starts_unlocked: bool = false
-@export var unlock_cost: int = 0
-@export var grow_time: float = 10.0
-@export var base_reward: int = 1
-@export var upgrade_cost: int = 10
+@export var unlock_cost: int = 10
 
 var state: SlotState
 var current_time: float = 0.0
-var plant_level: int = 1
+
+var plant_name: String = ""
+var grow_time: float = 0.0
+var reward: int = 0
 
 @onready var status_label = $Column/StatusLabel
 @onready var progress_bar = $Column/ProgressBar
 @onready var action_button = $Column/ActionButton
-@onready var upgrade_button = $Column/UpgradeButton
 
 func _ready() -> void:
 	state = SlotState.EMPTY if starts_unlocked else SlotState.LOCKED
+	reset_plant_data()
 	update_ui()
 
 func _process(delta: float) -> void:
-	if state == SlotState.GROWING:
-		current_time += delta
+	if state != SlotState.GROWING:
+		return
 
-		if current_time >= grow_time:
-			current_time = grow_time
-			state = SlotState.READY
+	current_time += delta
 
-		update_ui()
+	if current_time >= grow_time:
+		current_time = grow_time
+		state = SlotState.READY
+
+	update_ui()
 
 func _on_action_button_pressed() -> void:
 	match state:
 		SlotState.LOCKED:
 			unlock_requested.emit(self, unlock_cost)
+
 		SlotState.EMPTY:
-			plant()
+			empty_slot_selected.emit(self)
+
 		SlotState.GROWING:
-			pass
+			return
+
 		SlotState.READY:
 			harvest()
-
-func _on_upgrade_button_pressed() -> void:
-	if state != SlotState.LOCKED:
-		upgrade_requested.emit(self, upgrade_cost)
 
 func unlock() -> void:
 	state = SlotState.EMPTY
 	current_time = 0.0
+	reset_plant_data()
 	update_ui()
 
-func upgrade() -> void:
-	plant_level += 1
-	upgrade_cost = int(upgrade_cost * 1.75)
-	update_ui()
+func plant(new_plant_name: String, new_grow_time: float, new_reward: int) -> void:
+	if state != SlotState.EMPTY:
+		return
 
-func plant() -> void:
-	state = SlotState.GROWING
+	plant_name = new_plant_name
+	grow_time = max(new_grow_time, 0.1)
+	reward = new_reward
 	current_time = 0.0
+	state = SlotState.GROWING
 	update_ui()
 
 func harvest() -> void:
+	if state != SlotState.READY:
+		return
+
+	var earned_resources := reward
+
 	state = SlotState.EMPTY
 	current_time = 0.0
-	harvested.emit(get_reward())
+	reset_plant_data()
+
+	harvested.emit(earned_resources)
 	update_ui()
 
-func get_reward() -> int:
-	return base_reward * plant_level
+func reset_plant_data() -> void:
+	plant_name = ""
+	grow_time = 0.0
+	reward = 0
 
 func update_ui() -> void:
 	match state:
 		SlotState.LOCKED:
-			status_label.text = "Locked Slot"
-			action_button.text = "Unlock (%d)" % unlock_cost
+			status_label.text = "Bloqueado"
+			action_button.text = "Desbloquear (%d€)" % unlock_cost
 			action_button.disabled = false
-			upgrade_button.visible = false
 			progress_bar.value = 0
 
 		SlotState.EMPTY:
-			status_label.text = "Level %d plant (+%d)" % [plant_level, get_reward()]
-			action_button.text = "Plant"
+			status_label.text = "Parcela vacía"
+			action_button.text = "Plantar"
 			action_button.disabled = false
-			upgrade_button.visible = true
-			upgrade_button.text = "Upgrade (%d)" % upgrade_cost
 			progress_bar.value = 0
 
 		SlotState.GROWING:
-			status_label.text = "Growing... (+%d)" % get_reward()
-			action_button.text = "Waiting"
+			status_label.text = "%s creciendo" % plant_name
+			action_button.text = "Creciendo..."
 			action_button.disabled = true
-			upgrade_button.visible = true
-			upgrade_button.text = "Upgrade (%d)" % upgrade_cost
 			progress_bar.value = (current_time / grow_time) * 100.0
 
 		SlotState.READY:
-			status_label.text = "Ready (+%d)" % get_reward()
-			action_button.text = "Harvest"
+			status_label.text = "%s lista" % plant_name
+			action_button.text = "Recolectar"
 			action_button.disabled = false
-			upgrade_button.visible = true
-			upgrade_button.text = "Upgrade (%d)" % upgrade_cost
 			progress_bar.value = 100

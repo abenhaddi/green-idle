@@ -20,31 +20,80 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MainColumn" type="VBoxContainer" parent="RootPanel" unique_id=935680224]
+[node name="ScreenContainer" type="Control" parent="RootPanel" unique_id=378015075]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="RootPanel/MainColumn" unique_id=364202259]
+[node name="GardenScreen" type="VBoxContainer" parent="RootPanel/ScreenContainer" unique_id=935680224]
+layout_mode = 0
+offset_right = 672.0
+offset_bottom = 2100.0
+
+[node name="Header" type="VBoxContainer" parent="RootPanel/ScreenContainer/GardenScreen" unique_id=2059900645]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="RootPanel/ScreenContainer/GardenScreen/Header" unique_id=364202259]
 layout_mode = 2
 text = "Green Idle"
 
-[node name="ResourcesLabel" type="Label" parent="RootPanel/MainColumn" unique_id=200665143]
+[node name="ResourcesLabel" type="Label" parent="RootPanel/ScreenContainer/GardenScreen/Header" unique_id=200665143]
 layout_mode = 2
 text = "Resources: 0"
 
-[node name="Slot1" parent="RootPanel/MainColumn" unique_id=635103840 instance=ExtResource("1_glv2v")]
+[node name="MoneyLabel" type="Label" parent="RootPanel/ScreenContainer/GardenScreen/Header" unique_id=2124760448]
+layout_mode = 2
+text = "Money: 0"
+
+[node name="GardenPanel" type="PanelContainer" parent="RootPanel/ScreenContainer/GardenScreen" unique_id=1443342865]
+layout_mode = 2
+
+[node name="GardenGrid" type="GridContainer" parent="RootPanel/ScreenContainer/GardenScreen/GardenPanel" unique_id=249808459]
+layout_mode = 2
+
+[node name="Slot1" parent="RootPanel/ScreenContainer/GardenScreen/GardenPanel/GardenGrid" unique_id=635103840 instance=ExtResource("1_glv2v")]
 layout_mode = 2
 starts_unlocked = true
-grow_time = 3.0
-upgrade_cost = 5
+unlock_cost = 0
 
-[node name="Slot2" parent="RootPanel/MainColumn" unique_id=886385369 instance=ExtResource("1_glv2v")]
+[node name="Slot2" parent="RootPanel/ScreenContainer/GardenScreen/GardenPanel/GardenGrid" unique_id=886385369 instance=ExtResource("1_glv2v")]
 layout_mode = 2
-unlock_cost = 3
-grow_time = 5.0
-base_reward = 2
 
-[node name="Slot3" parent="RootPanel/MainColumn" unique_id=1290999251 instance=ExtResource("1_glv2v")]
+[node name="Slot3" parent="RootPanel/ScreenContainer/GardenScreen/GardenPanel/GardenGrid" unique_id=1290999251 instance=ExtResource("1_glv2v")]
 layout_mode = 2
-unlock_cost = 6
-base_reward = 4
-upgrade_cost = 20
+unlock_cost = 15
+
+[node name="Slot4" parent="RootPanel/ScreenContainer/GardenScreen/GardenPanel/GardenGrid" unique_id=1160518863 instance=ExtResource("1_glv2v")]
+layout_mode = 2
+unlock_cost = 25
+
+[node name="Slot5" parent="RootPanel/ScreenContainer/GardenScreen/GardenPanel/GardenGrid" unique_id=1697408656 instance=ExtResource("1_glv2v")]
+layout_mode = 2
+unlock_cost = 40
+
+[node name="Slot6" parent="RootPanel/ScreenContainer/GardenScreen/GardenPanel/GardenGrid" unique_id=1891079507 instance=ExtResource("1_glv2v")]
+layout_mode = 2
+unlock_cost = 60
+
+[node name="SellResourcesButton" type="Button" parent="RootPanel/ScreenContainer/GardenScreen" unique_id=289640558]
+layout_mode = 2
+
+[node name="PlantInventoryScreen" type="VBoxContainer" parent="RootPanel/ScreenContainer" unique_id=1159503791]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="InventoryTitleLabel" type="Label" parent="RootPanel/ScreenContainer/PlantInventoryScreen" unique_id=279549471]
+layout_mode = 2
+text = "¡Inventario!"
+
+[node name="Plant1Button" type="Button" parent="RootPanel/ScreenContainer/PlantInventoryScreen" unique_id=2023809416]
+layout_mode = 2
+
+[node name="Plant2Button" type="Button" parent="RootPanel/ScreenContainer/PlantInventoryScreen" unique_id=1797372212]
+layout_mode = 2
+
+[node name="Plant3Button" type="Button" parent="RootPanel/ScreenContainer/PlantInventoryScreen" unique_id=288639797]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="RootPanel/ScreenContainer/PlantInventoryScreen" unique_id=1334329424]
+layout_mode = 2
